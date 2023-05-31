@@ -1,8 +1,6 @@
-# This is a basic workflow to help you get started with Actions
 
 name: CI
 
-# Controls when the workflow will run
 on: [ push, workflow_dispatch ]
 
 
@@ -23,5 +21,7 @@ jobs:
       # Runs a set of commands using the runners shell
       - name: Run a multi-line script
         run: |
-          Measure-Command { devenv warmup.vdproj /build Release }
+          $vsInstallRoot = (Get-VisualStudioInstance).InstallationPath
+          $devEnvPath = "$vsInstallRoot\Common7\IDE\devenv.exe"        
+          Measure-Command { $devEnvPath warmup.vdproj /build Release }
         shell: powershell
