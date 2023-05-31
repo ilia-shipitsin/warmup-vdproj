@@ -22,6 +22,6 @@ jobs:
       - name: Run a multi-line script
         run: |
           $vsInstallRoot = (Get-VisualStudioInstance).InstallationPath
-          $devEnvPath = "$vsInstallRoot\Common7\IDE\devenv.exe"        
-          Measure-Command { $devEnvPath warmup.vdproj /build Release }
+          $devEnvPath = "$vsInstallRoot\Common7\IDE\devenv.exe"   
+          Measure-Command { & "$devEnvPath" warmup.vdproj /build Release | Out-Null }
         shell: powershell
