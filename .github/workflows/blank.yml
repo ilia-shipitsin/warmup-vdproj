@@ -23,6 +23,7 @@ jobs:
         run: |
           $vsInstallRoot = (Get-VisualStudioInstance).InstallationPath
           $devEnvPath = "$vsInstallRoot\Common7\IDE\devenv.exe"   
+          & "$devEnvPath" /RootSuffix Exp /ResetSettings General.vssettings /Command File.Exit
           (Measure-Command { & "$devEnvPath" warmup.vdproj /build Release | Out-Null }).TotalSeconds
           (Measure-Command { & "$devEnvPath" warmup.vdproj /build Release | Out-Null }).TotalSeconds
         shell: powershell
