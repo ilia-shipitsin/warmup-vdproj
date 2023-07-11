@@ -17,23 +17,24 @@ jobs:
       # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
       - uses: actions/checkout@v3
 
-      - name: warmup
-        run: |
-          $vsInstallRoot = (Get-VisualStudioInstance).InstallationPath
-          $devEnvPath = "$vsInstallRoot\Common7\IDE\devenv.exe"   
-          & "$devEnvPath" /RootSuffix Exp /ResetSettings General.vssettings /Command File.Exit
-          mkdir temp
-          cd temp
-          & $env:ProgramFiles\dotnet\dotnet.exe new console
-           & "$devEnvPath" temp.csproj /build Release | Out-Null
-        shell: powershell
+ #     - name: warmup
+ #       run: |
+ #         $vsInstallRoot = (Get-VisualStudioInstance).InstallationPath
+ #         $devEnvPath = "$vsInstallRoot\Common7\IDE\devenv.exe"   
+ #         & "$devEnvPath" /RootSuffix Exp /ResetSettings General.vssettings /Command File.Exit
+ #         mkdir temp
+ #         cd temp
+ #         & $env:ProgramFiles\dotnet\dotnet.exe new console
+ #          & "$devEnvPath" temp.csproj /build Release | Out-Null
+ #       shell: powershell
 
       - name: Run a multi-line script
         run: |
           $vsInstallRoot = (Get-VisualStudioInstance).InstallationPath
           $devEnvPath = "$vsInstallRoot\Common7\IDE\devenv.exe"   
-          & "$devEnvPath" /RootSuffix Exp /ResetSettings General.vssettings /Command File.Exit
-          & $env:ProgramFiles\dotnet\dotnet.exe new console
           (Measure-Command { & "$devEnvPath" warmup.vdproj /build Release | Out-Null }).TotalSeconds
           (Measure-Command { & "$devEnvPath" warmup.vdproj /build Release | Out-Null }).TotalSeconds
+          (Measure-Command { & "$devEnvPath" warmup.vdproj /build Release | Out-Null }).TotalSeconds
+          (Measure-Command { & "$devEnvPath" warmup.vdproj /build Release /p:Platform='x86' | Out-Null }).TotalSeconds
+          (Measure-Command { & "$devEnvPath" warmup.vdproj /build Release /p:Platform='x86' | Out-Null }).TotalSeconds          
         shell: powershell
